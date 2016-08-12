@@ -1,4 +1,6 @@
 
+
+
 var $wrSlider = $(".kirkin-slider");
 var $imgMass = $wrSlider.find(".slider-items");//													блок с изображениями
 var $sliderLayout = $wrSlider.find(".slider-layout");//										блок с элементами переключения
@@ -10,107 +12,52 @@ var timeAnimationAuto = 3000;//																						время автомати
 
 var magic = 20; // 200 / 5 (slider-layout.width / slider-items.length)
 
+var imageFunction = function(layout, nthType, imgMass, elemPos, height, topMargin, zIndex) {
+	layout.find(":nth-of-type(" + nthType + ")").css({
+		"background-image": "url(" + imgMass.find(":nth-of-type(" + elemPos + ")").attr("src") + ")",
+		"height": height,
+		"margin-top": topMargin,
+		"z-index": zIndex
+	});
+};
 
-var refresh = function(dopPreLeft, preLeft, leftElm, centrElm, rightElm, preRight, dopPreRight) {
+var ctrlAnimation = function(layout, nthType, height, topMargin, timeAnimation) {
+	layout.find(".slider-elm:nth-of-type(" + nthType + ")").animate({
+		"height": height,
+		"margin-top": topMargin,
+	}, timeAnimation);
+};
+
+var refresh = function(dopPreLeft, preLeft, leftElm, centrElm, rightElm, preRight, dopPreRight) {//захват
 	$sliderLayout.find(":nth-of-type(1)").css("background-image", "url(" + $imgMass.find(":nth-of-type(" + dopPreLeft + ")").attr("src") + ")");
 	$sliderLayout.find(":nth-of-type(7)").css("background-image", "url(" + $imgMass.find(":nth-of-type(" + dopPreRight + ")").attr("src") + ")");
-	
-	$sliderLayout.find(":nth-of-type(2)").css({
-		"background-image": "url(" + $imgMass.find(":nth-of-type(" + preLeft + ")").attr("src") + ")",
-		"height": "65%",
-		"margin-top": "4.5%",
-		"z-index": "4"
-	});
 
-	$sliderLayout.find(":nth-of-type(3)").css({
-		"background-image": "url(" + $imgMass.find(":nth-of-type(" + leftElm + ")").attr("src") + ")",
-		"height": "80%",
-		"margin-top": "2.5%",
-		"z-index": "5"
-	});
-
-	$sliderLayout.find(":nth-of-type(4)").css({
-		"background-image": "url(" + $imgMass.find(":nth-of-type(" + centrElm + ")").attr("src") + ")",
-		"height": "100%",
-		"margin-top": "0",
-		"z-index": "6"
-	});
-
-	$sliderLayout.find(":nth-of-type(5)").css({
-		"background-image": "url(" + $imgMass.find(":nth-of-type(" + rightElm + ")").attr("src") + ")",
-		"height": "80%",
-		"margin-top": "2.5%",
-		"z-index": "5"
-	});
-
-	$sliderLayout.find(":nth-of-type(6)").css({
-		"background-image": "url(" + $imgMass.find(":nth-of-type(" + preRight + ")").attr("src") + ")",
-		"height": "65%",
-		"margin-top": "4.5%",
-		"z-index": "4"
-	});
+	imageFunction($sliderLayout, 2, $imgMass, preLeft, "65%", "4.5%", 4);
+	imageFunction($sliderLayout, 3, $imgMass, leftElm, "80%", "2.5%", 5);
+	imageFunction($sliderLayout, 4, $imgMass, centrElm, "100%", 0, 6);
+	imageFunction($sliderLayout, 5, $imgMass, rightElm, "80%", "2.5%", 5);
+	imageFunction($sliderLayout, 6, $imgMass, preRight, "65%", "4.5%", 4);
 
 	$sliderLayout.css("margin-left", "-20%");
 };
 
 var kirkinInit = function() {
-
-	// var $wrSlider = $(".kirkin-slider");
-	// var $imgMass = $wrSlider.find(".slider-items");//													блок с изображениями
-	// var $sliderLayout = $wrSlider.find(".slider-layout");//										блок с элементами переключения
-	// var imgLength = $imgMass.find("img").length;//														количество изображений
-	// var leftElm, centrElm, rightElm, preLeft, preRight;
-	// var state = false;//																											для фц-и задержки
-	// var timeAnimationButton = 500;//																					время переключения слайдера с помощью кнопок переключения
-	// var timeAnimationAuto = 3000;//																						время автоматического переключения элементов слайдера
-
-	// var magic = 20; // 200 / 5 (slider-layout.width / slider-items.length)
-
 	console.assert(imgLength > 3, "I NEED MORE COOKIES(IMAGES)!!!");// debug
-
 	var delay = function() {
 		if (state) return true;
 		state = true;
 		setTimeout(function() { state = false }, timeAnimationButton + 60);
 	};
 
-	var refresh = function(dopPreLeft, preLeft, leftElm, centrElm, rightElm, preRight, dopPreRight) {
+	var refresh = function(dopPreLeft, preLeft, leftElm, centrElm, rightElm, preRight, dopPreRight) {//всё, кроме захвата
 		$sliderLayout.find(":nth-of-type(1)").css("background-image", "url(" + $imgMass.find(":nth-of-type(" + dopPreLeft + ")").attr("src") + ")");
 		$sliderLayout.find(":nth-of-type(7)").css("background-image", "url(" + $imgMass.find(":nth-of-type(" + dopPreRight + ")").attr("src") + ")");
-		
-		$sliderLayout.find(":nth-of-type(2)").css({
-			"background-image": "url(" + $imgMass.find(":nth-of-type(" + preLeft + ")").attr("src") + ")",
-			"height": "65%",
-			"margin-top": "4.5%",
-			"z-index": "4"
-		});
 
-		$sliderLayout.find(":nth-of-type(3)").css({
-			"background-image": "url(" + $imgMass.find(":nth-of-type(" + leftElm + ")").attr("src") + ")",
-			"height": "80%",
-			"margin-top": "2.5%",
-			"z-index": "5"
-		});
-
-		$sliderLayout.find(":nth-of-type(4)").css({
-			"background-image": "url(" + $imgMass.find(":nth-of-type(" + centrElm + ")").attr("src") + ")",
-			"height": "100%",
-			"margin-top": "0",
-			"z-index": "6"
-		});
-
-		$sliderLayout.find(":nth-of-type(5)").css({
-			"background-image": "url(" + $imgMass.find(":nth-of-type(" + rightElm + ")").attr("src") + ")",
-			"height": "80%",
-			"margin-top": "2.5%",
-			"z-index": "5"
-		});
-		$sliderLayout.find(":nth-of-type(6)").css({
-			"background-image": "url(" + $imgMass.find(":nth-of-type(" + preRight + ")").attr("src") + ")",
-			"height": "65%",
-			"margin-top": "4.5%",
-			"z-index": "4"
-		});
+		imageFunction($sliderLayout, 2, $imgMass, preLeft, "65%", "4.5%", 4);
+		imageFunction($sliderLayout, 3, $imgMass, leftElm, "80%", "2.5%", 5);
+		imageFunction($sliderLayout, 4, $imgMass, centrElm, "100%", 0, 6);
+		imageFunction($sliderLayout, 5, $imgMass, rightElm, "80%", "2.5%", 5);
+		imageFunction($sliderLayout, 6, $imgMass, preRight, "65%", "4.5%", 4);
 
 		$sliderLayout.css("margin-left", "-20%");
 	};
@@ -128,70 +75,33 @@ var kirkinInit = function() {
 				"margin-left": "+=" + magic + "%"
 			}, timeAnimationButton);
 
-			$sliderLayout.find('.slider-elm:nth-of-type(2)').animate({
-				height: "80%",
-				marginTop: "2.5%"
-			}, timeAnimationButton);
-
+			ctrlAnimation($sliderLayout, 2, "80%", "2.5%", timeAnimationButton);
 			$sliderLayout.find('.slider-elm:nth-of-type(3)').css("z-index", 7);
-			$sliderLayout.find('.slider-elm:nth-of-type(3)').animate({
-				height: "100%",
-				marginTop: "0"
-			}, timeAnimationButton);
+			ctrlAnimation($sliderLayout, 3, "100%", 0, timeAnimationButton);
+			ctrlAnimation($sliderLayout, 4, "80%", "2.5%", timeAnimationButton);
+			ctrlAnimation($sliderLayout, 5, "65%", "4.5%", timeAnimationButton);
 
-			$sliderLayout.find('.slider-elm:nth-of-type(4)').animate({
-				height: "80%",
-				marginTop: "2.5%"
-			}, timeAnimationButton);
+			if (indexCurrent === 1) centrElm = imgLength;
+			else centrElm = indexCurrent - 1;
 
-			$sliderLayout.find('.slider-elm:nth-of-type(5)').animate({
-				height: "65%",
-				marginTop: "4.5%"
-			}, timeAnimationButton);
+			if ((centrElm - 1) > 0) leftElm = centrElm - 1;
+			else leftElm = imgLength;
 
+			if ((leftElm - 1) > 0) preLeft = leftElm - 1;
+			else preLeft = imgLength;
 
-			if (indexCurrent === 1) {
-				centrElm = imgLength;
-			} else {
-				centrElm = indexCurrent - 1;
-			}
-
-			if ((centrElm - 1) > 0) {
-				leftElm = centrElm - 1;
-			} else {
-				leftElm = imgLength;
-			}
-
-			if ((leftElm - 1) > 0) {
-				preLeft = leftElm - 1;
-			} else {
-				preLeft = imgLength;
-			}
-
-			if ((preLeft - 1) > 0) {
-				dopPreLeft = preLeft - 1;
-			} else {
-				dopPreLeft = imgLength;
-			}
+			if ((preLeft - 1) > 0) dopPreLeft = preLeft - 1;
+			else dopPreLeft = imgLength;
 
 			rightElm = indexCurrent;
 
-			if ((rightElm + 1) > imgLength) {
-				preRight = 1;
-			} else if ((rightElm + 1) === imgLength) {
-				preRight = imgLength;
-			} else {
-				preRight = rightElm + 1;
-			}
+			if ((rightElm + 1) > imgLength) preRight = 1;
+			else if ((rightElm + 1) === imgLength) preRight = imgLength;
+			else preRight = rightElm + 1;
 
-			if ((preRight + 1) > imgLength) {
-				dopPreRight = 1;
-			} else if ((preRight + 1) === imgLength) {
-				dopPreRight = imgLength;
-			} else {
-				dopPreRight = preRight + 1;
-			}
-
+			if ((preRight + 1) > imgLength) dopPreRight = 1;
+			else if ((preRight + 1) === imgLength) dopPreRight = imgLength;
+			else dopPreRight = preRight + 1;
 		}
 
 		if ($(this).attr("class") === "ctrl-next") {
@@ -199,64 +109,32 @@ var kirkinInit = function() {
 				"margin-left": "-=" + magic + "%"
 			}, timeAnimationButton);
 
-			$sliderLayout.find('.slider-elm:nth-of-type(3)').animate({
-				height: "65%",
-				marginTop: "4.5%"
-			}, timeAnimationButton);
-
-			$sliderLayout.find('.slider-elm:nth-of-type(4)').animate({
-				height: "80%",
-				marginTop: "2.5%"
-			}, timeAnimationButton);
-
+			ctrlAnimation($sliderLayout, 3, "65%", "4.5%", timeAnimationButton);
+			ctrlAnimation($sliderLayout, 4, "80%", "2.5%", timeAnimationButton);
 			$sliderLayout.find('.slider-elm:nth-of-type(5)').css("z-index", 7);
-			$sliderLayout.find('.slider-elm:nth-of-type(5)').animate({
-				height: "100%",
-				marginTop: "0"
-			}, timeAnimationButton);
+			ctrlAnimation($sliderLayout, 5, "100%", 0, timeAnimationButton);
+			ctrlAnimation($sliderLayout, 6, "80%", "2.5%", timeAnimationButton);
 
-			$sliderLayout.find('.slider-elm:nth-of-type(6)').animate({
-				height: "80%",
-				marginTop: "2.5%"
-			}, timeAnimationButton);
+			if (indexCurrent === imgLength) centrElm = 1;
+			else centrElm = indexCurrent + 1;
 
-			if (indexCurrent === imgLength) {
-				centrElm = 1;
-			} else {
-				centrElm = indexCurrent + 1;
-			}
+			if ((centrElm + 1) > imgLength) rightElm =  1;
+			else rightElm = centrElm + 1;
 
-			if ((centrElm + 1) > imgLength) {
-				rightElm =  1;
-			} else {
-				rightElm = centrElm + 1;
-			}
+			if ((rightElm + 1) > imgLength) preRight = 1;
+			else preRight = rightElm + 1;
 
-			if ((rightElm + 1) > imgLength) {
-				preRight = 1;
-			} else {
-				preRight = rightElm + 1;
-			}
-
-			if ((preRight + 1) > imgLength) {
-				dopPreRight = 1;
-			} else {
-				dopPreRight = preRight + 1;
-			}
+			if ((preRight + 1) > imgLength) dopPreRight = 1;
+			else dopPreRight = preRight + 1;
 
 			leftElm = indexCurrent;
 
-			if (leftElm === 1) {
-				preLeft = imgLength;
-			} else {
-				preLeft = leftElm - 1;
-			}
+			if (leftElm === 1) preLeft = imgLength;
+			else preLeft = leftElm - 1;
 
-			if (preLeft === 1) {
-				dopPreLeft = imgLength;
-			} else {
-				dopPreLeft = preLeft - 1;
-			}
+			if (preLeft === 1) dopPreLeft = imgLength;
+			else dopPreLeft = preLeft - 1;
+
 		}
 		$imgMass.find(":nth-of-type(" + centrElm + ")").addClass('current');
 		setTimeout(refresh, timeAnimationButton, dopPreLeft, preLeft, leftElm, centrElm, rightElm, preRight, dopPreRight);
@@ -312,8 +190,6 @@ var delayD = function() {
 		setTimeout(function() { stateD = false }, timeAnimationButton + 60);
 	};
 
-
-
 	wrSliderBody = $(".slider-body");
 
 	wrSliderBody.mousedown(function(e) {
@@ -325,176 +201,91 @@ var delayD = function() {
 		var indexCurrent = $(this).parent().find(".current").index() + 1;
 		$(this).parent().find(".current").removeClass("current");
 
-		// wrSliderBody.unbind('mousemove');
-			// var currentPos = ((e.offsetX - start) / 10) + satturn;	
+		var needMe = e.offsetX - start;
 
-			// $(".slider-layout").css("margin-left", currentPos + "px");
+		if (needMe > 0) {
+			$sliderLayout.animate({
+				"margin-left": "+=" + magic + "%"
+			}, timeAnimationButton);
 
-			var needMe = e.offsetX - start;
+			ctrlAnimation($sliderLayout, 2, "80%", "2.5%", timeAnimationButton);
+			$sliderLayout.find('.slider-elm:nth-of-type(3)').css("z-index", 7);
+			ctrlAnimation($sliderLayout, 3, "100%", 0, timeAnimationButton);
+			ctrlAnimation($sliderLayout, 4, "80%", "2.5%", timeAnimationButton);
+			ctrlAnimation($sliderLayout, 5, "65%", "4.5%", timeAnimationButton);
 
-			console.log(needMe);
+			if (indexCurrent === 1) centrElm = imgLength;
+			else centrElm = indexCurrent - 1;
 
-			if (needMe > 0) {
-					$sliderLayout.animate({
-						"margin-left": "+=" + magic + "%"
-					}, timeAnimationButton);
+			if ((centrElm - 1) > 0) leftElm = centrElm - 1;
+			else leftElm = imgLength;
 
-					$sliderLayout.find('.slider-elm:nth-of-type(2)').animate({
-						height: "80%",
-						marginTop: "2.5%"
-					}, timeAnimationButton);
+			if ((leftElm - 1) > 0) preLeft = leftElm - 1;
+			else preLeft = imgLength;
 
-					$sliderLayout.find('.slider-elm:nth-of-type(3)').css("z-index", 7);
-					$sliderLayout.find('.slider-elm:nth-of-type(3)').animate({
-						height: "100%",
-						marginTop: "0"
-					}, timeAnimationButton);
+			if ((preLeft - 1) > 0) dopPreLeft = preLeft - 1;
+			else dopPreLeft = imgLength;
 
-					$sliderLayout.find('.slider-elm:nth-of-type(4)').animate({
-						height: "80%",
-						marginTop: "2.5%"
-					}, timeAnimationButton);
+			rightElm = indexCurrent;
 
+			if ((rightElm + 1) > imgLength) preRight = 1;
+			else if ((rightElm + 1) === imgLength) preRight = imgLength;
+			else preRight = rightElm + 1;
 
-					$sliderLayout.find('.slider-elm:nth-of-type(5)').animate({
-						height: "65%",
-						marginTop: "4.5%"
-					}, timeAnimationButton);
+			if ((preRight + 1) > imgLength) dopPreRight = 1;
+			else if ((preRight + 1) === imgLength) dopPreRight = imgLength;
+			else dopPreRight = preRight + 1;
 
+		}	else {
 
-					if (indexCurrent === 1) {
-						centrElm = imgLength;
-					} else {
-						centrElm = indexCurrent - 1;
-					}
+			$sliderLayout.animate({
+				"margin-left": "-=" + magic + "%"
+			}, timeAnimationButton);
 
-					if ((centrElm - 1) > 0) {
-						leftElm = centrElm - 1;
-					} else {
-						leftElm = imgLength;
-					}
+			ctrlAnimation($sliderLayout, 3, "65%", "4.5%", timeAnimationButton);
+			ctrlAnimation($sliderLayout, 4, "80%", "2.5%", timeAnimationButton);
+			$sliderLayout.find('.slider-elm:nth-of-type(5)').css("z-index", 7);
+			ctrlAnimation($sliderLayout, 5, "100%", 0, timeAnimationButton);
+			ctrlAnimation($sliderLayout, 6, "80%", "2.5%", timeAnimationButton);
 
-					if ((leftElm - 1) > 0) {
-						preLeft = leftElm - 1;
-					} else {
-						preLeft = imgLength;
-					}
+			if (indexCurrent === imgLength) centrElm = 1;
+			else centrElm = indexCurrent + 1;
 
-					if ((preLeft - 1) > 0) {
-						dopPreLeft = preLeft - 1;
-					} else {
-						dopPreLeft = imgLength;
-					}
+			if ((centrElm + 1) > imgLength) rightElm =  1;
+			else rightElm = centrElm + 1;
 
-					rightElm = indexCurrent;
+			if ((rightElm + 1) > imgLength) preRight = 1;
+			else preRight = rightElm + 1;
 
-					if ((rightElm + 1) > imgLength) {
-						preRight = 1;
-					} else if ((rightElm + 1) === imgLength) {
-						preRight = imgLength;
-					} else {
-						preRight = rightElm + 1;
-					}
+			if ((preRight + 1) > imgLength) dopPreRight = 1;
+			else dopPreRight = preRight + 1;
 
-					if ((preRight + 1) > imgLength) {
-						dopPreRight = 1;
-					} else if ((preRight + 1) === imgLength) {
-						dopPreRight = imgLength;
-					} else {
-						dopPreRight = preRight + 1;
-					}
-			}	else {
+			leftElm = indexCurrent;
 
-					$sliderLayout.animate({
-						"margin-left": "-=" + magic + "%"
-					}, timeAnimationButton);
+			if (leftElm === 1) preLeft = imgLength;
+			else preLeft = leftElm - 1;
 
-					$sliderLayout.find('.slider-elm:nth-of-type(3)').animate({
-						height: "65%",
-						marginTop: "4.5%"
-					}, timeAnimationButton);
+			if (preLeft === 1) dopPreLeft = imgLength;
+			else dopPreLeft = preLeft - 1;
 
-					$sliderLayout.find('.slider-elm:nth-of-type(4)').animate({
-						height: "80%",
-						marginTop: "2.5%"
-					}, timeAnimationButton);
-
-					$sliderLayout.find('.slider-elm:nth-of-type(5)').css("z-index", 7);
-					$sliderLayout.find('.slider-elm:nth-of-type(5)').animate({
-						height: "100%",
-						marginTop: "0"
-					}, timeAnimationButton);
-
-					$sliderLayout.find('.slider-elm:nth-of-type(6)').animate({
-						height: "80%",
-						marginTop: "2.5%"
-					}, timeAnimationButton);
-
-				if (indexCurrent === imgLength) {
-						centrElm = 1;
-					} else {
-						centrElm = indexCurrent + 1;
-					}
-
-					if ((centrElm + 1) > imgLength) {
-						rightElm =  1;
-					} else {
-						rightElm = centrElm + 1;
-					}
-
-					if ((rightElm + 1) > imgLength) {
-						preRight = 1;
-					} else {
-						preRight = rightElm + 1;
-					}
-
-					if ((preRight + 1) > imgLength) {
-						dopPreRight = 1;
-					} else {
-						dopPreRight = preRight + 1;
-					}
-
-					leftElm = indexCurrent;
-
-					if (leftElm === 1) {
-						preLeft = imgLength;
-					} else {
-						preLeft = leftElm - 1;
-					}
-
-					if (preLeft === 1) {
-						dopPreLeft = imgLength;
-					} else {
-						dopPreLeft = preLeft - 1;
-					}
-			}
-			$imgMass.find(":nth-of-type(" + centrElm + ")").addClass('current');
-			setTimeout(refresh, timeAnimationButton, dopPreLeft, preLeft, leftElm, centrElm, rightElm, preRight, dopPreRight);
-		});
+		}
+		$imgMass.find(":nth-of-type(" + centrElm + ")").addClass('current');
+		setTimeout(refresh, timeAnimationButton, dopPreLeft, preLeft, leftElm, centrElm, rightElm, preRight, dopPreRight);
 	});
+});
 
-	wrSliderBody.mouseup(function(e) {
-		wrSliderBody.unbind('mousemove');
-		$(this).css("cursor", "default");
-	});
+wrSliderBody.mouseup(function(e) {
+	wrSliderBody.unbind('mousemove');
+	$(this).css("cursor", "default");
+});
 
-	wrSliderBody.mouseout(function(e) {
-		wrSliderBody.unbind('mousemove');
-		$(this).css("cursor", "default");
-	});
-
-
+wrSliderBody.mouseout(function(e) {
+	wrSliderBody.unbind('mousemove');
+	$(this).css("cursor", "default");
+});
 
 wrSliderBody.mousedown(function() {
 	$(this).css("cursor", "pointer");
 });
 
-
 kirkinInit();
-
-
-
-// заменить margin-left на translate3D
-// добавить перспективу
-// убрать дублирование
-// заменить все дивы на img
